@@ -18,4 +18,23 @@ router.post('/sign-up', (req, res, next) => {
     })
 })
 
+router.get('/sign-in', (req, res, next) => {
+    res.render('sign-in')
+})
+
+router.post('/sign-in', (req, res, next) => {
+    const { email, password } = req.body
+
+    User.findOne({ email }).then(user => {
+        if (!user) return res.render('sign-in', { error: 'No such user' })
+
+        const passwordsMatch = bcrypt.compareSync(password, user.password)
+
+        if (!passwordsMatch) return res.render('sign-in', { error: 'Wrong password' })
+
+        // TODO create cookie
+        res.send("You're logged in!")
+    })
+})
+
 module.exports = router
