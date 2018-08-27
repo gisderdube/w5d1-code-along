@@ -13,9 +13,18 @@ router.post('/sign-up', (req, res, next) => {
 
     const encrypted = bcrypt.hashSync(password, 10)
 
-    new User({ email, password: encrypted }).save().then(result => {
-        res.send('User account was created')
-    })
+    new User({ email, password: encrypted })
+        .save()
+        .then(result => {
+            res.send('User account was created')
+        })
+        .catch(err => {
+            if (err.code === 11000) {
+                return res.render('sign-up', { error: 'user exists already' })
+            }
+            console.error(err)
+            res.send('something went wrong')
+        })
 })
 
 router.get('/sign-in', (req, res, next) => {

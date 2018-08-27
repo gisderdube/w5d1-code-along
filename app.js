@@ -10,6 +10,7 @@ const logger = require('morgan')
 const path = require('path')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+const passport = require('passport')
 
 mongoose.Promise = Promise
 mongoose
@@ -37,14 +38,16 @@ app.use(cookieParser())
 
 app.use(
     session({
-        secret: 'basic-auth-secret',
-        cookie: { maxAge: 60000 },
-        store: new MongoStore({
-            mongooseConnection: mongoose.connection,
-            ttl: 24 * 60 * 60, // 1 day
-        }),
+        secret: 'our-passport-local-strategy-app',
+        resave: true,
+        saveUninitialized: true,
     })
 )
+
+require('./utils/passport')
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Express View engine setup
 
