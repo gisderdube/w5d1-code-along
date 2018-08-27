@@ -70,4 +70,7 @@ app.use('/', index)
 const auth = require('./routes/auth')
 app.use('/auth', auth)
 
+const protectedRoutes = require('./routes/protected')
+app.use('/protected', protectedRoutes)
+
 module.exports = app
