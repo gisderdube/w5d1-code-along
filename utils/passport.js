@@ -12,7 +12,11 @@ passport.deserializeUser((id, cb) => {
         if (err) {
             return cb(err)
         }
-        cb(null, user)
+
+        const cleanUser = user.toObject()
+        delete cleanUser.password
+
+        cb(null, cleanUser)
     })
 })
 

@@ -1,14 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const ensureLogin = require('connect-ensure-login')
 
-function authorizeMiddleware(req, res, next) {
-    if (!req.session.currentUser) res.send('You should not be here')
-    else next()
-}
-
-router.use(authorizeMiddleware)
+router.use(ensureLogin.ensureLoggedIn('/auth/sign-in'))
 
 router.get('/', (req, res, next) => {
+    console.log(req.user)
     res.send("Here's your answer: 42")
 })
 
