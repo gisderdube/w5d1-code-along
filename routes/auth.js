@@ -32,7 +32,11 @@ router.post('/sign-in', (req, res, next) => {
 
         if (!passwordsMatch) return res.render('sign-in', { error: 'Wrong password' })
 
-        // TODO create cookie
+        const cleanUser = user.toObject()
+        delete cleanUser.password
+
+        req.session.currentUser = cleanUser
+
         res.send("You're logged in!")
     })
 })
