@@ -29,7 +29,7 @@ router.post('/sign-up', (req, res, next) => {
 })
 
 router.get('/sign-in', (req, res, next) => {
-    res.render('sign-in')
+    res.render('sign-in', { error: req.flash('error') })
 })
 
 router.post(
@@ -42,10 +42,8 @@ router.post(
 )
 
 router.get('/sign-out', (req, res) => {
-    req.session.destroy(() => {
-        // cannot access session here
-        res.redirect('/')
-    })
+    req.logout()
+    res.redirect('/login')
 })
 
 module.exports = router

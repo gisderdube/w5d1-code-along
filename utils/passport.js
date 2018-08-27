@@ -33,7 +33,7 @@ passport.use(
                 }
 
                 if (!user) {
-                    return done(null, false, { message: 'Incorrect username.' })
+                    return done(null, false, { message: 'Incorrect email.' })
                 }
 
                 const passwordsMatch = bcrypt.compareSync(password, user.password)

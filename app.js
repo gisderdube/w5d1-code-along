@@ -11,6 +11,7 @@ const path = require('path')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
+const flash = require('connect-flash')
 
 mongoose.Promise = Promise
 mongoose
@@ -35,6 +36,7 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(flash())
 
 app.use(
     session({
