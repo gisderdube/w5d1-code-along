@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
+const passport = require('passport')
 
 const User = require('../models/User')
 
@@ -31,24 +32,14 @@ router.get('/sign-in', (req, res, next) => {
     res.render('sign-in')
 })
 
-router.post('/sign-in', (req, res, next) => {
-    const { email, password } = req.body
-
-    User.findOne({ email }).then(user => {
-        if (!user) return res.render('sign-in', { error: 'No such user' })
-
-        const passwordsMatch = bcrypt.compareSync(password, user.password)
-
-        if (!passwordsMatch) return res.render('sign-in', { error: 'Wrong password' })
-
-        const cleanUser = user.toObject()
-        delete cleanUser.password
-
-        req.session.currentUser = cleanUser
-
-        res.send("You're logged in!")
+router.post(
+    '/sign-in',
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/auth/sign-in',
+        failureFlash: true,
     })
-})
+)
 
 router.get('/sign-out', (req, res) => {
     req.session.destroy(() => {
