@@ -41,9 +41,27 @@ router.post(
     })
 )
 
+router.get(
+    '/google',
+    passport.authenticate('google', {
+        scope: [
+            'https://www.googleapis.com/auth/plus.login',
+            'https://www.googleapis.com/auth/plus.profile.emails.read',
+        ],
+    })
+)
+
+router.get(
+    '/google/cb',
+    passport.authenticate('google', {
+        failureRedirect: '/auth/sign-in',
+        successRedirect: '/',
+    })
+)
+
 router.get('/sign-out', (req, res) => {
     req.logout()
-    res.redirect('/login')
+    res.redirect('/auth/sign-in')
 })
 
 module.exports = router
