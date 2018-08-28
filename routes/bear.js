@@ -22,7 +22,9 @@ router.get('/details/:id', (req, res) => {
 
     Bear.findById(id).then(bear => {
         if (!bear) return res.send('No such bear')
-        if (bear.user.toString() !== req.user._id.toString()) res.send('NOT YOUR BEAR!')
+        if (bear.user.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+            res.send('NOT YOUR BEAR!')
+        }
 
         res.send(bear)
     })
