@@ -21,7 +21,7 @@ router.get('/details/:id', (req, res) => {
     const { id } = req.params
 
     Bear.findById(id).then(bear => {
-        if (!bear) res.send('No such bear')
+        if (!bear) return res.send('No such bear')
         if (bear.user.toString() !== req.user._id.toString()) res.send('NOT YOUR BEAR!')
 
         res.send(bear)

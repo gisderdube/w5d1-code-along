@@ -43,6 +43,7 @@ app.use(
         secret: 'our-passport-local-strategy-app',
         resave: true,
         saveUninitialized: true,
+        store: new MongoStore({ mongooseConnection: mongoose.connection, ttl: 99999999999 }),
     })
 )
 
