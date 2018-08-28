@@ -30,4 +30,16 @@ router.get('/details/:id', (req, res) => {
     })
 })
 
+router.get('/list', (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        res.send('You should not be here!')
+    } else next()
+})
+
+router.get('/list', (req, res, next) => {
+    Bear.find({}).then(bears => {
+        res.send(bears)
+    })
+})
+
 module.exports = router
