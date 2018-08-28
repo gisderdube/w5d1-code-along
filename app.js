@@ -75,6 +75,9 @@ app.use('/', index)
 const auth = require('./routes/auth')
 app.use('/auth', auth)
 
+const bear = require('./routes/bear')
+app.use('/bear', bear)
+
 const protectedRoutes = require('./routes/protected')
 app.use('/protected', protectedRoutes)
 
